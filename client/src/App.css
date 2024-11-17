@@ -1,0 +1,60 @@
+.rotate {
+  animation: rotate 1.2s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(160deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+table {
+  border: 1px solid white;
+  width: 90%;
+}
+
+tbody tr td{
+  text-align: center;
+}
+
+table tr th {
+  border: 1px solid white;
+  background: rgb(84, 83, 83);
+  padding: 10px 0;
+}
+
+table td {
+  border: 1px solid rgba(255, 255, 255, 0.71);
+  gap: 5px;
+  padding: 5px 10px;
+}
+
+.action {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  gap: 5px;
+  height: 100%;
+}
+
+.empId {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.829);
+  padding: 2px 5px;
+  top: -3px;
+  left: -50%;
+  border-radius: 5px;
+  display: none;
+  transition: 0.5s ease-in;
+}
+
+.td:hover .empId {
+  display: block;
+}
