@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useData } from '../context/ContextProvider'
 import { useNavigate } from 'react-router-dom'
-import { Loader2, PencilIcon, SquarePen, Trash2 } from 'lucide-react'
+import { Loader2, SquarePen, Trash2 } from 'lucide-react'
 import Delete from '../components/Delete'
+import Search from '../components/Search'
 
 export default function Employees() {
 
     const navigate = useNavigate()
     const { username, employees, deleteEmployee } = useData()
 
+    const [filteredEmployees, setFilteredEmployees] = useState(employees);
+
+
+    const [search, setSearch] = useState('')
     const [showDelete, setShowDelete] = useState(false)
     const [loading, setLoading] = useState(false)
 
@@ -27,10 +32,29 @@ export default function Employees() {
         }
     }, [username])
 
+    useEffect(() => {
+        const searchResult = employees.filter(emp =>
+            emp.name.toLowerCase().includes(search.toLowerCase()) ||
+            emp.email.toLowerCase().includes(search.toLowerCase()) ||
+            emp.mobileNo.toLowerCase().includes(search.toLowerCase()) 
+        );
+        setFilteredEmployees(searchResult);
+    }, [search, employees]);
+
+
     return (
         <div className='w-full min-h-screen flex items-center flex-col pt-[6rem] overflow-y-scroll '>
 
-            <h1 className='text-2xl mb-3 font-semibold underline'>Total Employees : {employees ? employees.length : 0}</h1>
+            <div className='w-full flex item-center justify-around mb-2'>
+                <h1 className='text-2xl mb-3 font-semibold underline'>Total Employees : {employees ? employees.length : 0}</h1>
+                {
+                    employees &&
+                    <Search
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                }
+            </div>
 
             {
                 employees && employees.length > 0 ?
@@ -51,7 +75,7 @@ export default function Employees() {
                         </thead>
                         <tbody>
                             {
-                                employees && employees.map((employee, index) => (
+                                filteredEmployees.map((employee, index) => (
                                     <tr key={index}>
                                         <td className='relative td'>
                                             <p className='empId'>{employee._id}</p>
